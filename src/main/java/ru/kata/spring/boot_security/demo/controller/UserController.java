@@ -15,35 +15,34 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("/admin/")
     public String listUsers(Model model) {
         model.addAttribute("listUsers", userService.findAll());
         return "users";
     }
 
-    @GetMapping("/user/add")
+    @GetMapping("/admin/add")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
         return "add-user";
     }
 
-    @PostMapping("/user/save")
+    @PostMapping("/admin/save")
     public String saveUser(@ModelAttribute("user") User user) {
-        userService.save(user);
-        return "redirect:/";
+        userService.saveUserWithRole(user);
+        return "redirect:/admin/";
     }
 
-    @PostMapping("/user/delete")
+    @PostMapping("/admin/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.delete(id);
-        return "redirect:/";
+        return "redirect:/admin/";
     }
 
-    @PostMapping("/user/edit")
+    @PostMapping("/admin/edit")
     public String editUser(@RequestParam("id") Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
-        return "add-user";  // JSP форма редактирования
+        return "add-user";
     }
-
 }

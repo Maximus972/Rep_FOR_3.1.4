@@ -25,12 +25,16 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
+    private String userName;
+
+    private String password;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public User() {}
 
-    public User(String name, String email, int age, Set<Role> roles) {
+    public User(String name, String email, int age, List<Role> roles) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -69,9 +73,13 @@ public class User implements UserDetails {
         this.age = age;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return null;
     }
 
     @Override
