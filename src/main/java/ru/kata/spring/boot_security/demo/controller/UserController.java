@@ -7,13 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/admin/")
     public String listUsers(Model model) {
@@ -24,11 +32,19 @@ public class UserController {
     @GetMapping("/admin/add")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("role", new Role());
+//        model.addAttribute("role", new Role());
+//        List<Role> roles = new ArrayList<>();
+//        roles.add(new Role("USER"));
+//        roles.add(new Role("ADMIN"));
         return "add-user";
     }
 
     @PostMapping("/admin/save")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute("user") User user, @ModelAttribute("role") Role role) {
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+        user.setRoles(roles);
         userService.saveUserWithRole(user);
         return "redirect:/admin/";
     }

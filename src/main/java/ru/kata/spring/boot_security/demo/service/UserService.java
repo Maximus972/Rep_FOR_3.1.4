@@ -25,12 +25,13 @@ public class UserService {
 
     @Transactional
     public void saveUserWithRole(User user) {
-        List<Role> roles = user.getRoles();
-        for (Role role : roles) {
-            role.setUser(user);
-        }
-        roleService.saveAll(roles);
+//        List<Role> roles = user.getRoles().forEach(t -> t.setUser(user));
+//        for (Role role : roles) {
+//            role.setUser(user);
+//        }
+        List<Role> roles = user.getRoles().stream().peek(t -> t.setUser(user)).toList();
         userDao.save(user);
+        roleService.saveAll(roles);
     }
 
     @Transactional(readOnly = true)

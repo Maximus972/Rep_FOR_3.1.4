@@ -6,25 +6,37 @@
 </head>
 <body>
 <h2>Add/Edit User</h2>
-<form th:action="@{/admin/save}" method="post" th:object="${user}">
-    <input type="hidden" th:field="*{id}" />
+<form th:action="@{/admin/save}" method="post">
+    <!-- Поля для User -->
+    <h3>User Information</h3>
+    <input type="hidden" th:field="*{user.id}" />
     <table>
         <tr>
             <td>Name:</td>
-            <td><input type="text" th:field="*{name}" /></td>
+            <td><input type="text" th:field="*{user.name}" /></td>
         </tr>
         <tr>
             <td>Email:</td>
-            <td><input type="text" th:field="*{email}" /></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Save" /></td>
+            <td><input type="text" th:field="*{user.email}" /></td>
         </tr>
     </table>
-    <label for="roles">Role:</label>
-    <select id="roles" name="roles" multiple>
-        <option th:each="role : ${roles}" th:value="${role.name}" th:text="${role.name}"></option>
-    </select>
+
+    <!-- Поля для Role -->
+    <h3>Role Information</h3>
+    <table>
+        <tr>
+            <td>Role Name:</td>
+            <td>
+                <select th:field="*{role.name}">
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Одна кнопка для отправки обеих форм -->
+    <input type="submit" value="Save User and Role" />
 </form>
 </body>
 </html>
