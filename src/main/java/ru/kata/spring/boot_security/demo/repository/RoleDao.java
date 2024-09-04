@@ -10,15 +10,4 @@ import java.util.List;
 
 @Repository
 public interface RoleDao extends JpaRepository<Role, Long> {
-
-    default List<Role> findByIds(List<Long> ids) {
-        List<Role> roles = findAll();
-        List<Role> filteredRoles = new ArrayList<>();
-        for (Role role : roles) {
-            if (ids.contains(role.getId())) {
-                filteredRoles.add(role);
-            }
-        }
-        return filteredRoles;
-    }
 }

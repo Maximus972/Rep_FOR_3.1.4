@@ -15,21 +15,16 @@ public class RoleService {
 
     @Transactional
     public void save(Role role) {
-        roleDao.save(role);
+        roleDao.saveAndFlush(role);
     }
 
     @Transactional
     public void saveAll(List<Role> roles) {
-        roleDao.saveAll(roles);
+        roleDao.saveAllAndFlush(roles);
     }
 
     @Transactional
     public List<Role> findAll() {
         return roleDao.findAll();
-    }
-
-    @Transactional
-    public List<Role> findByIds(List<Long> roleIds) {
-        return roleDao.findByIds(roleIds);
     }
 }

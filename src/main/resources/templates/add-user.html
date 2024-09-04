@@ -7,7 +7,6 @@
 <body>
 <h2>Add/Edit User</h2>
 <form th:action="@{/admin/save}" method="post">
-    <!-- Поля для User -->
     <h3>User Information</h3>
     <input type="hidden" th:field="*{user.id}" />
     <table>
@@ -19,15 +18,22 @@
             <td>Email:</td>
             <td><input type="text" th:field="*{user.email}" /></td>
         </tr>
+        <tr>
+            <td>UserName</td>
+            <td><input type="text" th:field="*{user.username}" /></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="text" th:field="*{user.password}" /></td>
+        </tr>
     </table>
 
-    <!-- Поля для Role -->
     <h3>Role Information</h3>
     <table>
         <tr>
             <td>Role Name:</td>
             <td>
-                <select th:field="*{role.name}">
+                <select th:field="*{role.roleName}">
                     <option value="USER">USER</option>
                     <option value="ADMIN">ADMIN</option>
                 </select>

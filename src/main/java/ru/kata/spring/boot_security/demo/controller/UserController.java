@@ -29,6 +29,14 @@ public class UserController {
         return "users";
     }
 
+    @GetMapping("/user/")
+    public String userList(Model model) {
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role("user"));
+        model.addAttribute("user", new User("Ruslan", "Ruslan@yandex.ru", roles , "Rusik001", "12345678"));
+        return "user";
+    }
+
     @GetMapping("/admin/add")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());

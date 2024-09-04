@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -13,11 +12,11 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String name;
+    private String roleName;
+
 
     public Role(String name) {
-        this.name = name;
+        this.roleName = name;
     }
 
     public Role() {}
@@ -28,7 +27,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return name;
+        return roleName;
     }
 
     public Long getId() {
@@ -39,12 +38,12 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleName(String name) {
+        this.roleName = name;
     }
 
     public User getUser() {

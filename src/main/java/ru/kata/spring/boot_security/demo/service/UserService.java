@@ -30,7 +30,7 @@ public class UserService {
 //            role.setUser(user);
 //        }
         List<Role> roles = user.getRoles().stream().peek(t -> t.setUser(user)).toList();
-        userDao.save(user);
+        userDao.saveAndFlush(user);
         roleService.saveAll(roles);
     }
 

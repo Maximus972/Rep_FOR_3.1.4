@@ -33,6 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/logout") // URL для logout
+                .logoutSuccessUrl("/login") // URL после успешного logout
+                .invalidateHttpSession(true) // Инвалидация HTTP-сессии
                 .permitAll();
     }
 
@@ -44,10 +47,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 User.withDefaultPasswordEncoder()
                         .username("user")
                         .password("user")
-                        .roles("ADMIN")
+                        .roles("USER")
                         .build();
 
-        return new InMemoryUserDetailsManager(user);
+        UserDetails admin =
+                User.withDefaultPasswordEncoder()
+                    .username("admin")
+                    .password("admin")
+                    .roles("ADMIN")
+                    .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
     }
 
 
