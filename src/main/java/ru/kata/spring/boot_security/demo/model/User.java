@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -22,8 +21,10 @@ public class User implements UserDetails {
     @Column(name = "email")
     private String email;
 
-    private String userName;
+    @Column(name ="username", unique = true)
+    private String username;
 
+    @Column(name = "password")
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -31,10 +32,10 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String name, String email, List<Role> roles, String userName, String password) {
+    public User(String name, String email, List<Role> roles, String username, String password) {
         this.name = name;
         this.email = email;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.roles = roles;
     }
@@ -73,7 +74,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
@@ -87,11 +88,11 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     public void setUsername(String username) {
-        this.userName = username;
+        this.username = username;
     }
 
     @Override

@@ -12,8 +12,8 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "role_name")
     private String roleName;
-
 
     public Role(String name) {
         this.roleName = name;
@@ -27,6 +27,9 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
+        if (!roleName.startsWith("ROLE_")) {
+            return "ROLE_" + roleName;
+        }
         return roleName;
     }
 
