@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +32,9 @@ public class UserController {
     }
 
     @GetMapping("/user/")
-    public String userList(Model model) {
-        List<Role> roles = new ArrayList<>();
-        roles.add(new Role("user"));
-        model.addAttribute("user", new User("Ruslan", "Ruslan@yandex.ru", roles , "Rusik001", "12345678"));
+    public String userList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        User user = userService.loadUserByUsername(userDetails.getUsername());
+        model.addAttribute("user", user);
         return "user";
     }
 

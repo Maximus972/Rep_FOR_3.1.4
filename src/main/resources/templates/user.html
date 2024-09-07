@@ -13,6 +13,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Role</th>
+        <th>UserName</th>
     </tr>
     </thead>
     <tbody>
@@ -21,6 +22,7 @@
         <td th:text="${user.name}">John Doe</td>
         <td th:text="${user.email}">john@example.com</td>
         <td th:text="${user.roles.get(0).roleName}">Role</td>
+        <td th:text="${user.username}">UserName</td>
     </tr>
     </tbody>
 </table>
