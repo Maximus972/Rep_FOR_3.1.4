@@ -42,10 +42,6 @@ public class UserController {
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("role", new Role());
-//        model.addAttribute("role", new Role());
-//        List<Role> roles = new ArrayList<>();
-//        roles.add(new Role("USER"));
-//        roles.add(new Role("ADMIN"));
         return "add-user";
     }
 

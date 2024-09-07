@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleDao;
 import ru.kata.spring.boot_security.demo.repository.UserDao;
 
 import java.util.List;
@@ -57,17 +55,5 @@ public class UserService implements UserDetailsService {
     @Transactional
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userDao.findByUsername(username);
-    }
-
-    @Transactional
-    public void encryptExistingPasswords() {
-        List<User> users = userDao.findAll();
-        for (User user : users) {
-            // Если пароль не зашифрован
-            if (!user.getPassword().startsWith("$2a$")) { // Проверка на формат BCrypt
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                userDao.save(user);
-            }
-        }
     }
 }

@@ -7,12 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Configuration
@@ -34,13 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
-
-//    @Bean
-//    public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-//        CustomAuthenticationFilter filter = new CustomAuthenticationFilter(authenticationManagerBean());
-//        filter.setFilterProcessesUrl("/login"); // Устанавливаем URL для аутентификации, если необходимо
-//        return filter;
-//    }
 
     @Bean
     @Override
@@ -67,30 +55,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .permitAll();
     }
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
-    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                    .username("admin")
-//                    .password("admin")
-//                    .roles("ADMIN")
-//                    .build();
-//
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
 }
