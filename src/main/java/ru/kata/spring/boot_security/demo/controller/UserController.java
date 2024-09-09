@@ -28,6 +28,8 @@ public class UserController {
     @GetMapping("/admin/")
     public String listUsers(Model model) {
         model.addAttribute("listUsers", userService.findAll());
+        model.addAttribute("user", new User());
+        model.addAttribute("role", new Role());
         return "users";
     }
 
@@ -47,6 +49,11 @@ public class UserController {
 
     @PostMapping("/admin/save")
     public String saveUser(@ModelAttribute("user") User user, @ModelAttribute("role") Role role) {
+        User userFromDB = userService.loadUserByUsername(user.getUsername());
+        if (userFromDB != null) {
+            user.setPassword(userFromDB.getPassword());
+            userService.delete(userFromDB.getId());
+        }
         List<Role> roles = new ArrayList<>();
         roles.add(role);
         user.setRoles(roles);

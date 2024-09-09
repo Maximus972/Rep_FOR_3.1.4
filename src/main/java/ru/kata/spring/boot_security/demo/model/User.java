@@ -40,6 +40,13 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public void setUser(User user) {
+        this.id = user.id;
+        this.name = user.name;
+        this.email = user.email;
+        this.username = user.username;
+    }
+
     public Long getId() {
         return id;
     }
