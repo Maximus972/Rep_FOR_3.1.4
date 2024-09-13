@@ -4,103 +4,130 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Hello, world!</title>
 </head>
 
 <body>
-<h1>Admin panel</h1>
-<<div class="card">
-    <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Users table</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" >New User</a>
-            </li>
-        </ul>
-    </div>
-    <div class="card-body">
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <h1>All users</h1>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">UserName</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="user : ${listUsers}">
-                        <th scope="row" th:text="${user.id}">1</th>
-                        <td th:text="${user.name}">Mark</td>
-                        <td th:text="${user.email}">Otto</td>
-                        <td th:text="${user.username}">@mdo</td>
-                        <td th:text="${user.roles.get(0).toString()}">@mdo</td>
-                        <td>
-                                <input type="hidden" th:name="id" th:value="${user.id}"/>
-                                <button type="button" class="btn button bg-info text-white" data-bs-toggle="modal"
-                                        th:data-bs-target="'#editUserModal' + ${user.id}" th:data-user-id="${user.id}">Edit</button>
-                        </td>
-                        <td>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Боковая панель -->
+        <div class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active bg-primary text-white badge-pill badge-primary" id="admin-panel" data-bs-toggle="tab" href="#myTab" role="tab" aria-controls="myTab" aria-selected="true">
+                            <i class="bi bi-table"></i>
+                            All Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="user-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                            <i class="bi bi-person"></i>
+                            Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-header">
+                <h1>Admin panel</h1>
+                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="all-users-tab" data-bs-toggle="tab" href="#all-users" role="tab" aria-controls="home" aria-selected="true">Users table</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="new-user-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" >New User</a>
+                    </li>
+                </ul>
+            </div>
+
+<div class="card-body">
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="all-users" role="tabpanel" aria-labelledby="all-users-tab">
+            <h1>All users</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">UserName</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${listUsers}">
+                    <th scope="row" th:text="${user.id}">1</th>
+                    <td th:text="${user.name}">Mark</td>
+                    <td th:text="${user.email}">Otto</td>
+                    <td th:text="${user.username}">@mdo</td>
+                    <td th:text="${user.roles.get(0).toString()}">@mdo</td>
+                    <td>
+                            <input type="hidden" th:name="id" th:value="${user.id}"/>
+                            <button type="button" class="btn button bg-info text-white" data-bs-toggle="modal"
+                                    th:data-bs-target="'#editUserModal' + ${user.id}" th:data-user-id="${user.id}">Edit</button>
+                    </td>
+                    <td>
 <!--                            <button type="submit" class="btn button bg-danger text-white" th:onclick="'deleteUser(' + ${user.id} + ')'">Delete</button></td>-->
-                            <form th:action="@{/admin/delete}" method="post" style="display: inline;">
-                                <input type="hidden" th:name="id" th:value="${user.id}"/>
-                                <button type="submit" class="btn btn-danger text-white">Delete</button>
-                            </form>
+                        <form th:action="@{/admin/delete}" method="post" style="display: inline;">
+                            <input type="hidden" th:name="id" th:value="${user.id}"/>
+                            <button type="submit" class="btn btn-danger text-white">Delete</button>
+                        </form>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="new-user-tab">
+            <form th:action="@{/admin/save}" method="post">
+                <h3>User Information</h3>
+                <input type="hidden" th:field="*{user.id}" />
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type="text" th:field="*{user.name}" /></td>
                     </tr>
-                    </tbody>
+                    <tr>
+                        <td>Email:</td>
+                        <td><input type="text" th:field="*{user.email}" /></td>
+                    </tr>
+                    <tr>
+                        <td>UserName</td>
+                        <td><input type="text" th:field="*{user.username}" /></td>
+                    </tr>
                 </table>
-            </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <form th:action="@{/admin/save}" method="post">
-                    <h3>User Information</h3>
-                    <input type="hidden" th:field="*{user.id}" />
-                    <table>
-                        <tr>
-                            <td>Name:</td>
-                            <td><input type="text" th:field="*{user.name}" /></td>
-                        </tr>
-                        <tr>
-                            <td>Email:</td>
-                            <td><input type="text" th:field="*{user.email}" /></td>
-                        </tr>
-                        <tr>
-                            <td>UserName</td>
-                            <td><input type="text" th:field="*{user.username}" /></td>
-                        </tr>
-                    </table>
 
-                    <h3>Role Information</h3>
-                    <table>
-                        <tr>
-                            <td>Role Name:</td>
-                            <td>
-                                <select th:field="*{role.roleName}">
-                                    <option value="USER">USER</option>
-                                    <option value="ADMIN">ADMIN</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
+                <h3>Role Information</h3>
+                <table>
+                    <tr>
+                        <td>Role Name:</td>
+                        <td>
+                            <select th:field="*{role.roleName}">
+                                <option value="USER">USER</option>
+                                <option value="ADMIN">ADMIN</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
 
-                    <!-- Одна кнопка для отправки обеих форм -->
-                    <input type="submit" value="Save User and Role" />
-                </form>
-            </div>
+                <!-- Одна кнопка для отправки обеих форм -->
+                <input type="submit" value="Save User and Role" />
+            </form>
+        </div>
             <div class="tab-pane fade" id="disabled" role="tabpanel" aria-labelledby="disabled-tab">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Suscipit rem accusamus officia quia eos ducimus consequuntur! Impedit aliquid vero suscipit.</div>
         </div>
     </div>
 </div>
+
 
 <!-- Модальное окно для редактирования пользователя -->
 <div th:each="user : ${listUsers}" class="modal fade" th:id="'editUserModal' + ${user.id}" tabindex="-1"
@@ -108,7 +135,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" th:id="'editUserModalLabel' + ${user.id}" th:text="'Edit User - ' + ${user.name}">
+                <h5 class="modal-title" th:id="'editUserModalLabel' + ${user.id}" th:text="'Edit User'">
                     Edit User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -144,9 +171,11 @@
     </div>
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
 </script>
+
 </body>
 </html>
 

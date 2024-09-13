@@ -26,11 +26,12 @@ public class UserController {
     private RoleService roleService;
 
     @GetMapping("/admin/")
-    public String listUsers(Model model) {
+    public String listUsers(@AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("listUsers", userService.findAll());
         model.addAttribute("user", new User());
         model.addAttribute("role", new Role());
-        return "users";
+        model.addAttribute("currentuser", currentUser);
+        return "test";
     }
 
     @GetMapping("/user/")
