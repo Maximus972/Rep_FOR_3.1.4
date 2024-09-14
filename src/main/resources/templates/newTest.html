@@ -16,6 +16,21 @@
             background-color: #007bff; /* цвет primary */
             color: white;
         }
+
+        .text-center-custom {
+            text-align: center;
+            display: block; /* Чтобы label занимал всю доступную ширину */
+            width: 100%; /* Чтобы label занимал всю доступную ширину */
+        }
+
+        .form-group-center {
+            text-align: center;
+        }
+
+        .custom-width {
+            display: inline-block; /* Чтобы поля были выровнены по центру */
+            width: 300px; /* Установите желаемую ширину полей */
+        }
     </style>
 </head>
 <body>
@@ -25,10 +40,10 @@
         <div class="col-3">
             <ul class="nav flex-column nav-pills" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#home" role="tab" data-toggle="tab">Домой</a>
+                    <a class="nav-link active" href="#home" role="tab" data-toggle="tab">Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#profile" role="tab" data-toggle="tab">Профиль</a>
+                    <a class="nav-link" href="#profile" role="tab" data-toggle="tab">User</a>
                 </li>
             </ul>
         </div>
@@ -36,16 +51,16 @@
         <!-- Содержимое вкладок -->
         <div class="col-9">
             <div class="tab-content">
-                <!-- Вкладка "Домой" -->
+                <!-- Вкладка "Admin" -->
                 <div role="tabpanel" class="tab-pane active" id="home">
-                    <h4>Домой</h4>
+                    <h4>Admin panel</h4>
                     <!-- Горизонтальные вложенные вкладки -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#allUsers" role="tab" data-toggle="tab">Все пользователи</a>
+                            <a class="nav-link active" href="#allUsers" role="tab" data-toggle="tab">Users table</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#newUser" role="tab" data-toggle="tab">Новый пользователь</a>
+                            <a class="nav-link" href="#newUser" role="tab" data-toggle="tab">New User</a>
                         </li>
                     </ul>
 
@@ -81,7 +96,7 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn button bg-warning text-white" data-toggle="modal"
+                                        <button type="button" class="btn button bg-danger text-white" data-toggle="modal"
                                                 th:data-target="'#deleteUserModal' + ${user.id}"
                                                 th:data-user-id="${user.id}">
                                             Delete
@@ -183,46 +198,49 @@
                     <input type="hidden" name="id" th:value="${user.id}"/>
 
                     <!-- Поле для отображения ID -->
-                    <div class="mb-3">
-                        <label for="userId + ${user.id}" class="form-label">ID</label>
-                        <input type="text" class="form-control" id="userId + ${user.id}" name="id"
+                    <div class="mb-3 form-group-center">
+                        <label for="userId + ${user.id}" class="form-label text-center-custom">ID</label>
+                        <input type="text" class="form-control custom-width" id="userId + ${user.id}" name="id"
                                th:value="${user.id}" readonly>
                     </div>
-                    <div class="mb-3">
-                        <label for="userName + ${user.id}" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="userName + ${user.id}" name="name"
+                    <div class="mb-3 form-group-center">
+                        <label for="userName + ${user.id}" class="form-label text-center-custom">Name</label>
+                        <input type="text" class="form-control custom-width" id="userName + ${user.id}" name="name"
                                th:value="${user.name}">
                     </div>
-                    <div class="mb-3">
-                        <label for="userUsername + ${user.id}" class="form-label">UserName</label>
-                        <input type="text" class="form-control" id="userUsername + ${user.id}" name="username"
+                    <div class="mb-3 form-group-center">
+                        <label for="userUsername + ${user.id}" class="form-label text-center-custom">UserName</label>
+                        <input type="text" class="form-control custom-width" id="userUsername + ${user.id}" name="username"
                                th:value="${user.username}">
                     </div>
-                    <div class="mb-3">
-                        <label for="userEmail + ${user.id}" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="userEmail + ${user.id}" name="email"
+                    <div class="mb-3 form-group-center">
+                        <label for="userEmail + ${user.id}" class="form-label text-center-custom">Email</label>
+                        <input type="text" class="form-control custom-width" id="userEmail + ${user.id}" name="email"
                                th:value="${user.email}">
                     </div>
-                    <div class="mb-3">
-                        <label for="userPassword + ${user.id}" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="userPassword + ${user.id}" name="password"
-                               th:value="${user.password}">
+                    <input type="hidden" name="id" th:value="${user.password}"/>
+                    <div class="mb-3 form-group-center">
+                        <label for="userPassword + ${user.id}" class="form-label text-center-custom">Password</label>
+                        <input type="text" class="form-control custom-width" id="userPassword + ${user.id}" name="password">
                     </div>
-                    <div class="mb-3">
-                        <label for="userRole + ${user.id}" class="form-label">Role</label>
+                    <div class="mb-3 form-group-center">
+                        <label for="userRole + ${user.id}" class="form-label text-center-custom">Role</label>
                         <select class="form-select" id="userRole + ${user.id}" th:field="*{role.roleName}">
                             <option value="USER" th:selected="${user.roles.contains('USER')}">USER</option>
                             <option value="ADMIN" th:selected="${user.roles.contains('ADMIN')}">ADMIN</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary" style="margin-right: 10px;" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<!--Модальное окно с удалением пользователя-->
+<!-- Модальное окно с удалением пользователя -->
 <div th:each="user : ${listUsers}" class="modal fade" th:id="'deleteUserModal' + ${user.id}" tabindex="-1"
      aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -241,46 +259,47 @@
                     <input type="hidden" name="id" th:value="${user.id}"/>
 
                     <!-- Поле для отображения ID -->
-                    <div class="mb-3">
-                        <label for="userId + ${user.id}" class="form-label">ID</label>
-                        <input type="text" class="form-control" id="deleteUserId + ${user.id}" name="id"
+                    <div class="mb-3 form-group-center">
+                        <label for="deleteUserId + ${user.id}" class="form-label text-center-custom">ID</label>
+                        <input type="text" class="form-control custom-width" id="deleteUserId + ${user.id}" name="id"
                                th:value="${user.id}" readonly>
                     </div>
-                    <div class="mb-3">
-                        <label for="userName + ${user.id}" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="deleteUserName + ${user.id}" name="name"
+                    <div class="mb-3 form-group-center">
+                        <label for="deleteUserName + ${user.id}" class="form-label text-center-custom">Name</label>
+                        <input type="text" class="form-control custom-width" id="deleteUserName + ${user.id}" name="name"
                                th:value="${user.name}" readonly>
                     </div>
-                    <div class="mb-3">
-                        <label for="userUsername + ${user.id}" class="form-label">UserName</label>
-                        <input type="text" class="form-control" id="deleteUserUsername + ${user.id}" name="username"
+                    <div class="mb-3 form-group-center">
+                        <label for="deleteUserUsername + ${user.id}" class="form-label text-center-custom">UserName</label>
+                        <input type="text" class="form-control custom-width" id="deleteUserUsername + ${user.id}" name="username"
                                th:value="${user.username}" readonly>
                     </div>
-                    <div class="mb-3">
-                        <label for="userEmail + ${user.id}" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="deleteUserEmail + ${user.id}" name="email"
+                    <div class="mb-3 form-group-center">
+                        <label for="deleteUserEmail + ${user.id}" class="form-label text-center-custom">Email</label>
+                        <input type="text" class="form-control custom-width" id="deleteUserEmail + ${user.id}" name="email"
                                th:value="${user.email}" readonly>
                     </div>
-                    <div class="mb-3">
-                        <label for="userPassword + ${user.id}" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="deleteUserPassword + ${user.id}" name="password"
-                               th:value="${user.password}" readonly>
+                    <input type="hidden" name="id" th:value="${user.password}"/>
+                    <div class="mb-3 form-group-center">
+                        <label for="deleteUserPassword + ${user.id}" class="form-label text-center-custom">Password</label>
+                        <input type="text" class="form-control custom-width" id="deleteUserPassword + ${user.id}" name="password" readonly>
                     </div>
-                    <div class="mb-3">
-                        <label for="deleteUserRole + ${user.id}" class="form-label">Role</label>
-                        <input type="text" class="form-control" id="deleteUserRole + ${user.id}" name="role"
+                    <div class="mb-3 form-group-center">
+                        <label for="deleteUserRole + ${user.id}" class="form-label text-center-custom">Role</label>
+                        <input type="text" class="form-control custom-width" id="deleteUserRole + ${user.id}" name="role"
                                th:value="${user.roles.get(0)}" readonly>
-<!--                        <select class="form-select" id="deleteUserRole + ${user.id}" th:value="${role.roleName}">-->
-<!--                            <option value="USER" th:selected="${user.roles.contains('USER')}">USER</option>-->
-<!--                            <option value="ADMIN" th:selected="${user.roles.contains('ADMIN')}">ADMIN</option>-->
-<!--                        </select>-->
+                        <!-- Примечание: здесь можно использовать select, если это необходимо -->
                     </div>
-                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary" style="margin-right: 10px;" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
