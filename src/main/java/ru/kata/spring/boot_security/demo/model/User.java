@@ -41,10 +41,18 @@ public class User implements UserDetails {
     }
 
     public void setUser(User user) {
-        this.id = user.id;
         this.name = user.name;
         this.email = user.email;
         this.username = user.username;
+        this.password = user.password;
+        this.roles.get(0).setRoleName((user.getRoles().get(0).getRoleName()));
+    }
+
+    public void setUserWithoutRoles(User user) {
+        this.name = user.name;
+        this.email = user.email;
+        this.username = user.username;
+        this.password = user.password;
     }
 
     public Long getId() {
@@ -120,5 +128,20 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void clearAndSetRoles(Role role) {
+        roles.clear();
+        roles.add(role);
+    }
+
+    public void clearAndSetRoles(List<Role> roles) {
+        roles.clear();
+        this.roles.addAll(roles);
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", UserName: " + username + ", Password: " + password;
     }
 }

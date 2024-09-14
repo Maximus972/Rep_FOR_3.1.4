@@ -11,6 +11,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserDao;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -36,9 +37,18 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void saveUserWithRole(User user) {
         List<Role> roles = user.getRoles().stream().peek(t -> t.setUser(user)).toList();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.saveAndFlush(user);
-        roleService.saveAll(roles);
+        if (user.getId() == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userDao.save(user);
+            roleService.saveAll(roles);
+        } else {
+            Optional<User> optionalUser = userDao.findById(user.getId());
+            User userToDB = optionalUser.get();
+            userToDB.setUser(user);
+//            userToDB.setRoles(user.getRoles());
+            userDao.save(userToDB);
+            roleService.saveAll(userToDB.getRoles());
+        }
     }
 
     @Transactional(readOnly = true)

@@ -26,18 +26,28 @@ public class UserController {
     private RoleService roleService;
 
     @GetMapping("/admin/")
-    public String listUsers(@AuthenticationPrincipal User currentUser, Model model) {
+    public String forAdmin(@AuthenticationPrincipal User currentUser, Model model) {
         model.addAttribute("listUsers", userService.findAll());
         model.addAttribute("user", new User());
         model.addAttribute("role", new Role());
         model.addAttribute("currentuser", currentUser);
-        return "test";
+        return "newTest";
+    }
+
+
+    @GetMapping("/admin/newTest/")
+    public String newtest(@AuthenticationPrincipal User currentUser, Model model) {
+        model.addAttribute("listUsers", userService.findAll());
+        model.addAttribute("user", new User());
+        model.addAttribute("role", new Role());
+        model.addAttribute("currentuser", currentUser);
+        return "newTest";
     }
 
     @GetMapping("/user/")
-    public String userList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        User user = userService.loadUserByUsername(userDetails.getUsername());
-        model.addAttribute("user", user);
+    public String forUser(@AuthenticationPrincipal User currentUser, Model model) {
+        User user = userService.loadUserByUsername(currentUser.getUsername());
+        model.addAttribute("currentuser", currentUser);
         return "user";
     }
 
@@ -50,11 +60,6 @@ public class UserController {
 
     @PostMapping("/admin/save")
     public String saveUser(@ModelAttribute("user") User user, @ModelAttribute("role") Role role) {
-        User userFromDB = userService.loadUserByUsername(user.getUsername());
-        if (userFromDB != null) {
-            user.setPassword(userFromDB.getPassword());
-            userService.delete(userFromDB.getId());
-        }
         List<Role> roles = new ArrayList<>();
         roles.add(role);
         user.setRoles(roles);

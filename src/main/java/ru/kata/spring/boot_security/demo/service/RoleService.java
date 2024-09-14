@@ -15,12 +15,17 @@ public class RoleService {
 
     @Transactional
     public void save(Role role) {
-        roleDao.saveAndFlush(role);
+        roleDao.save(role);
     }
 
     @Transactional
     public void saveAll(List<Role> roles) {
-        roleDao.saveAllAndFlush(roles);
+        roleDao.saveAll(roles);
+    }
+
+    @Transactional
+    public void deleteRoles(List<Role> roles) {
+        roleDao.deleteAll(roles);
     }
 
     @Transactional

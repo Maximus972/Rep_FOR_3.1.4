@@ -11,16 +11,23 @@
         .nav-link.custom-rounded {
             border-radius: 4px; /* Измените это значение для более или менее закругленных углов */
         }
+
         .center-abs {
             position: absolute;
             left: 50%;
             transform: translateX(-50%); /* Смещаем блок на половину его ширины влево */
         }
+
+        .nav-pills .nav-link.active {
+            background-color: #007bff; /* цвет primary */
+            color: white;
+        }
     </style>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-xl navbar-dark bg-dark text-white" th:text="${currentuser.email} + ' with roles: ' + ${currentuser.roles.get(0)}" >
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark text-white"
+     th:text="${currentuser.email} + ' with roles: ' + ${currentuser.roles.get(0)}">
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>
     </form>
@@ -30,18 +37,16 @@
         <!-- Боковая панель -->
         <div class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
             <div class="position-sticky pt-3">
-                <ul class="nav flex-column">
+                <ul class="nav flex-column nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link active custom-rounded bg-primary text-white border-radius: 4px badge-primary "
-                           id="admin-panel" data-bs-toggle="tab" href="#admin-panel-content" role="tab"
-                           aria-controls="admin-panel-content" aria-selected="true">
+                        <a class="nav-link active"
+                           id="admin-panel" data-bs-toggle="tab" href="#admin-panel-content" role="tab">
                             <i class="bi bi-table"></i>
                             All Users
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="current-user-tab" data-bs-toggle="tab" href="#current-user" role="tab"
-                           aria-controls="current-user" aria-selected="false">
+                        <a class="nav-link" id="current-user-tab" data-bs-toggle="tab" href="#current-user" role="tab">
                             <i class="bi bi-person"></i>
                             Profile
                         </a>
@@ -50,25 +55,26 @@
             </div>
         </div>
 
+        <!-- Горизонтальные вложенные вкладки -->
         <div class="col-md-9 col-lg-10" id="admin-panel-content">
-            <div class="card w-100">
-                <div class="tab-content">
-                    <div class="card-header" >
+            <div class="tab-content">
+                <div class="card w-100">
+                    <div class="card-header">
                         <h1>Admin panel</h1>
                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="all-users-tab" data-bs-toggle="tab" href="#users-table"
-                                   role="tab" aria-controls="users-table" aria-selected="true">Users table</a>
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#users-table"
+                                   role="tab">Users table</a>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="new-user-tab" data-bs-toggle="tab" href="#new-user" role="tab"
-                                   aria-controls="new-user" aria-selected="false">New User</a>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#new-user"
+                                   role="tab">New User</a>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="tab-pane fade show active" id="users-table" role="tabpanel"
-                         aria-labelledby="all-users-tab">
+
+                    <div class="tab-pane active" id="users-table" role="tabpanel">
                         <h1 style="margin: 15px; padding: 10px;">All users</h1>
                         <table class="table table-striped">
                             <thead>
@@ -92,14 +98,16 @@
                                 <td>
                                     <button type="button" class="btn button bg-info text-white" data-bs-toggle="modal"
                                             th:data-bs-target="'#editUserModal' + ${user.id}"
-                                            th:data-user-id="${user.id}">Edit
+                                            th:data-user-id="${user.id}">
+                                        Edit
                                     </button>
                                 </td>
                                 <td>
-                                    <!--                            <button type="submit" class="btn button bg-danger text-white" th:onclick="'deleteUser(' + ${user.id} + ')'">Delete</button></td>-->
                                     <form th:action="@{/admin/delete}" method="post" style="display: inline;">
                                         <input type="hidden" th:name="id" th:value="${user.id}"/>
-                                        <button type="submit" class="btn btn-danger text-white">Delete</button>
+                                        <button type="submit" class="btn btn-danger text-white">
+                                            Delete
+                                        </button>
                                     </form>
                             </tr>
                             </tbody>
@@ -176,7 +184,6 @@
 </div>
 
 
-
 <!-- Модальное окно для редактирования пользователя -->
 <div th:each="user : ${listUsers}" class="modal fade" th:id="'editUserModal' + ${user.id}" tabindex="-1"
      aria-labelledby="editUserModalLabel" aria-hidden="true">
@@ -215,7 +222,6 @@
                     <div class="mb-3">
                         <label for="userPassword + ${user.id}" class="form-label">Password</label>
                         <input type="text" class="form-control" id="userPassword + ${user.id}" name="password"
-                               th:field="*{user.password}"
                                th:value="${user.password}">
                     </div>
                     <div class="mb-3">
