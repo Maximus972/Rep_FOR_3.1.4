@@ -34,6 +34,19 @@
     </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark text-white">
+    <div class="container-fluid">
+        <!-- Отображение email и ролей пользователя -->
+        <span th:text="${currentuser.email} + ' with roles: ' + ${currentuser.roles.get(0)}"></span>
+
+        <!-- Кнопка выхода -->
+        <div class="d-flex ms-auto">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-light" style="margin-right: 10px;">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
 <div class="container">
     <div class="row">
         <!-- Вертикальные вкладки -->
@@ -109,42 +122,43 @@
                         <!-- Вкладка "Новый пользователь" -->
                         <div role="tabpanel" class="tab-pane" id="newUser">
                             <form th:action="@{/admin/save}" method="post">
-                                <h3>User Information</h3>
+                                <h3>Add new user</h3>
                                 <input type="hidden" th:field="*{user.id}"/>
-                                <table>
-                                    <tr>
-                                        <td>Name:</td>
-                                        <td><input type="text" th:field="*{user.name}"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email:</td>
-                                        <td><input type="text" th:field="*{user.email}"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>UserName</td>
-                                        <td><input type="text" th:field="*{user.username}"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Password</td>
-                                        <td><input type="text" th:field="*{user.password}"/></td>
-                                    </tr>
-                                </table>
-
-                                <h3>Role Information</h3>
-                                <table>
-                                    <tr>
-                                        <td>Role Name:</td>
-                                        <td>
-                                            <select th:field="*{role.roleName}">
-                                                <option value="USER">USER</option>
-                                                <option value="ADMIN">ADMIN</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <!-- Одна кнопка для отправки обеих форм -->
-                                <input type="submit" value="Save User and Role"/>
+                                <div class="mb-3 form-group-center">
+                                    <label for="setUserId" class="form-label text-center-custom">ID</label>
+                                    <input type="text" class="form-control custom-width" id="setUserId" name="id"
+                                           th:field="*{user.id}">
+                                </div>
+                                <div class="mb-3 form-group-center">
+                                    <label for="setUserName" class="form-label text-center-custom">Name</label>
+                                    <input type="text" class="form-control custom-width" id="setUserName" name="name"
+                                           th:field="*{user.name}">
+                                </div>
+                                <div class="mb-3 form-group-center">
+                                    <label for="setUserUsername" class="form-label text-center-custom">Username</label>
+                                    <input type="text" class="form-control custom-width" id="setUserUsername" name="username"
+                                           th:field="*{user.username}">
+                                </div>
+                                <div class="mb-3 form-group-center">
+                                    <label for="setUserEmail" class="form-label text-center-custom">Email</label>
+                                    <input type="text" class="form-control custom-width" id="setUserEmail" name="email"
+                                           th:field="*{user.email}">
+                                </div>
+                                <div class="mb-3 form-group-center">
+                                    <label for="setUserPassword" class="form-label text-center-custom">Password</label>
+                                    <input type="text" class="form-control custom-width" id="setUserPassword" name="password"
+                                           th:field="*{user.password}">
+                                </div>
+                                <div class="mb-3 form-group-center">
+                                    <label for="setUserRole" class="form-label text-center-custom">Role</label>
+                                    <select class="form-select" id="setUserRole" th:field="*{role.roleName}">
+                                        <option value="USER">USER</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-success">Add new user</button>
+                                </div>
                             </form>
                         </div>
                     </div>
