@@ -3,7 +3,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -47,36 +47,85 @@
         </div>
     </div>
 </nav>
-<div class="container">
+<div class="container fluid">
     <div class="row">
         <!-- Вертикальные вкладки -->
-        <div class="col-3">
-            <ul class="nav flex-column nav-pills" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#home" role="tab" data-toggle="tab">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#profile" role="tab" data-toggle="tab">User</a>
-                </li>
-            </ul>
+        <div class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav flex-column nav-pills me-3">
+                        <a class="nav-link active" id="home-tab" href="#admin-panel" role="tab" data-toggle="tab" aria-controls="admin-panel" aria-selected="true">Admin</a>
+                        <a class="nav-link" href="#profile" role="tab" data-toggle="tab" aria-controls="profile" aria-selected="true">User</a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <!-- Содержимое вкладок -->
-        <div class="col-9">
+        <div class="col-md-9">
             <div class="tab-content">
                 <!-- Вкладка "Admin" -->
-                <div role="tabpanel" class="tab-pane active" id="home">
+                <div role="tabpanel" class="tab-pane fade show active" id="admin-panel" aria-labelledby="home-tab">
                     <h4>Admin panel</h4>
                     <!-- Горизонтальные вложенные вкладки -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#allUsers" role="tab" data-toggle="tab">Users table</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#newUser" role="tab" data-toggle="tab">New User</a>
-                        </li>
-                    </ul>
+                    <div class="card">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" href="#allUsers" role="tab" data-toggle="tab">Users table</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#newUser" role="tab" data-toggle="tab">New User</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <h1>All Users</h1>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">UserName</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Edit</th>
+                                            <th scope="col">Delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="user : ${listUsers}">
+                                            <th scope="row" th:text="${user.id}">1</th>
+                                            <td th:text="${user.name}">Mark</td>
+                                            <td th:text="${user.email}">Otto</td>
+                                            <td th:text="${user.username}">@mdo</td>
+                                            <td th:text="${user.roles.get(0).toString()}">@mdo</td>
+                                            <td>
+                                                <button type="button" class="btn button bg-info text-white" data-toggle="modal"
+                                                        th:data-target="'#editUserModal' + ${user.id}"
+                                                        th:data-user-id="${user.id}">
+                                                    Edit
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn button bg-danger text-white" data-toggle="modal"
+                                                        th:data-target="'#deleteUserModal' + ${user.id}"
+                                                        th:data-user-id="${user.id}">
+                                                    Delete
+                                                </button>
+                                        </tr>
+                                        </tbody>
+                                    </table>
 
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="newUser" role="tabpanel" aria-labelledby="profile-tab">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure, asperiores provident ea eaque quis omnis adipisci in exercitationem necessitatibus dolorem.
+                            </div>
+                        </div>
+                    </div>
                     <!-- Содержимое для горизонтальных вкладок -->
                     <div class="tab-content mt-3">
                         <!-- Вкладка "Все пользователи" -->

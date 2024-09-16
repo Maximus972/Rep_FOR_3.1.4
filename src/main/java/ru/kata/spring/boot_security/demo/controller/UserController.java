@@ -31,7 +31,7 @@ public class UserController {
         model.addAttribute("user", new User());
         model.addAttribute("role", new Role());
         model.addAttribute("currentuser", currentUser);
-        return "newTest";
+        return "test";
     }
 
 
