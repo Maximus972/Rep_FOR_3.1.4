@@ -14,22 +14,7 @@ public class RoleService {
     RoleDao roleDao;
 
     @Transactional
-    public void save(Role role) {
-        roleDao.save(role);
-    }
-
-    @Transactional
     public void saveAll(List<Role> roles) {
         roleDao.saveAll(roles);
-    }
-
-    @Transactional
-    public void deleteRoles(List<Role> roles) {
-        roleDao.deleteAll(roles);
-    }
-
-    @Transactional
-    public List<Role> findAll() {
-        return roleDao.findAll();
     }
 }

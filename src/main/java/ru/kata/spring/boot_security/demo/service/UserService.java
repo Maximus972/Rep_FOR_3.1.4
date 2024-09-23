@@ -43,9 +43,14 @@ public class UserService implements UserDetailsService {
             roleService.saveAll(roles);
         } else {
             Optional<User> optionalUser = userDao.findById(user.getId());
-            User userToDB = optionalUser.get();
+            if (optionalUser.isEmpty()) {
+                throw new UsernameNotFoundException("User not found");
+            }
+                User userToDB = optionalUser.get();
+            if (!passwordEncoder.matches(user.getPassword(), userToDB.getPassword())) {
+                userToDB.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
             userToDB.setUser(user);
-//            userToDB.setRoles(user.getRoles());
             userDao.save(userToDB);
             roleService.saveAll(userToDB.getRoles());
         }
